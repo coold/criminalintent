@@ -1,7 +1,10 @@
 package ru.coold.criminalintent;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
@@ -35,7 +38,12 @@ public class DatePickerFragment extends DialogFragment {
         datePicker.init(year, month, day, new DatePicker.OnDateChangedListener() {
             @Override
             public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                mDate = new GregorianCalendar(year, monthOfYear, dayOfMonth).getTime();
+                Calendar calendar1 = Calendar.getInstance();
+                calendar1.setTime(mDate);
+                calendar1.set(Calendar.YEAR, year);
+                calendar1.set(Calendar.MONTH, monthOfYear);
+                calendar1.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                mDate = calendar1.getTime();
 
                 getArguments().putSerializable(EXTRA_DATE, mDate);
             }
@@ -43,7 +51,22 @@ public class DatePickerFragment extends DialogFragment {
 
 
         return new AlertDialog.Builder(getActivity()).setView(v).setTitle(R.string.date_picker_title)
-                .setPositiveButton(android.R.string.ok, null).create();
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        sendResult(Activity.RESULT_OK);
+                    }
+                }).create();
+    }
+
+    private void sendResult(int resultCode){
+        if(getTargetFragment()==null){
+            return;
+        }
+
+        Intent i = new Intent();
+        i.putExtra(EXTRA_DATE,mDate);
+        getTargetFragment().onActivityResult(getTargetRequestCode(), resultCode, i);
     }
 
     public static DatePickerFragment newInstance(Date date) {

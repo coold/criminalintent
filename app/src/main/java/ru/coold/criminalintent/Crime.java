@@ -1,5 +1,6 @@
 package ru.coold.criminalintent;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
 
@@ -12,6 +13,7 @@ public class Crime {
     private String mTitle;
     private Date mDate;
     private boolean mSolved;
+    private static SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMMM yyyy HH:mm");
 
     public Crime() {
         mId = UUID.randomUUID();
@@ -37,6 +39,10 @@ public class Crime {
 
     public Date getDate() {
         return mDate;
+    }
+
+    public String getSimpleDate(){
+        return dateFormat.format(mDate);
     }
 
     public void setDate(Date date) {
