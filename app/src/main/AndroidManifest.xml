@@ -10,7 +10,9 @@
         <activity
             android:name="ru.coold.criminalintent.CrimePagerActivity"
             android:label="@string/app_name" >
-
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".CrimeListActivity"/>
         </activity>
         <activity
             android:name=".CrimeListActivity">

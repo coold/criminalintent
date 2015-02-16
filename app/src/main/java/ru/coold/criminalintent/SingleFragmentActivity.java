@@ -1,14 +1,16 @@
 package ru.coold.criminalintent;
 
+import android.app.ActionBar;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.ActionBarActivity;
 
 /**
  * Created by rz on 09.02.2015.
  */
-public abstract class SingleFragmentActivity extends FragmentActivity {
+public abstract class SingleFragmentActivity extends ActionBarActivity {
     protected abstract Fragment createFragment();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
