@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent" >
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@android:id/list"></ListView>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@android:id/empty">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/empty_list"
+            android:gravity="center"
+            android:textSize="20dp"
+            android:padding="20dp"
+            android:textIsSelectable="true"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|bottom"
+            android:gravity="center"
+            android:layout_marginBottom="20dp"
+            android:id="@+id/list_newcrime_button"
+            android:drawableLeft="@android:drawable/ic_menu_add"
+            android:drawablePadding="10dp"
+            android:text="@string/new_crime"
+            android:clickable="true"/>
+
+    </FrameLayout>
+
+
+</FrameLayout>

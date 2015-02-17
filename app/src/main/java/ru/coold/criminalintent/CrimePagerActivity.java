@@ -45,9 +45,13 @@ public class CrimePagerActivity extends ActionBarActivity {
         for (int i=0; i<mCrimes.size();i++){
             if (mCrimes.get(i).getId().equals(crimeId)){
                 mViewPager.setCurrentItem(i);
+                if(mCrimes.get(i).getTitle()!=null){
+                    setTitle(mCrimes.get(i).getTitle());
+                }
                 break;
             }
         }
+
         mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener(){
 
             @Override
