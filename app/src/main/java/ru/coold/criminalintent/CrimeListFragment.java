@@ -57,6 +57,9 @@ public class CrimeListFragment extends ListFragment {
         MenuItem showSubtitle = menu.findItem(R.id.menu_item_show_subtitle);
         if(mSubtitleVisible && showSubtitle!=null){
             showSubtitle.setTitle(R.string.hide_subtitle);
+            if(((ActionBarActivity)getActivity()).getSupportActionBar().getSubtitle()==null) {
+                ((ActionBarActivity) getActivity()).getSupportActionBar().setSubtitle(R.string.subtitle);
+            }
         }
     }
 
