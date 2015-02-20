@@ -2,6 +2,8 @@ package ru.coold.criminalintent;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -14,6 +16,8 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -129,12 +133,29 @@ public class CrimeFragment extends Fragment {
     }
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        getActivity().getMenuInflater().inflate(R.menu.fragment_crime, menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.home:
                 if(NavUtils.getParentActivityName(getActivity())!=null){
                     NavUtils.navigateUpFromSameTask(getActivity());
                 }
+                return true;
+            case R.id.menu_item_delete_this_crime:
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setMessage("Are you sure?").setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if(NavUtils.getParentActivityName(getActivity())!=null){
+                            CrimeLab.get(getActivity()).deleteCrime(mCrime);
+                            NavUtils.navigateUpFromSameTask(getActivity());
+                        }
+                    }
+                }).setNegativeButton("No", null).show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
