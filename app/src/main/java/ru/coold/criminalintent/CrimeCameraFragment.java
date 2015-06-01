@@ -6,11 +6,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.hardware.Camera;
+import android.hardware.SensorManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.OrientationEventListener;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -48,7 +50,6 @@ public class CrimeCameraFragment extends Fragment {
         public void onPictureTaken(byte[] data, Camera camera) {
             String filename = UUID.randomUUID().toString() + ".jpg";
             FileOutputStream os = null;
-            Log.i(TAG, getActivity().getResources().getConfiguration().orientation+"");
             boolean success = true;
             try {
                 os = getActivity().openFileOutput(filename, Context.MODE_PRIVATE);
@@ -165,10 +166,6 @@ public class CrimeCameraFragment extends Fragment {
             mCamera = Camera.open(0);
         } else {
             mCamera = Camera.open();
-            if((getActivity().getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE)){
-                mCamera.setDisplayOrientation(90);
-            }
-
         }
     }
 
@@ -179,5 +176,7 @@ public class CrimeCameraFragment extends Fragment {
             mCamera.release();
             mCamera = null;
         }
+
+
     }
 }

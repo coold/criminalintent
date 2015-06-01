@@ -33,7 +33,6 @@ public class ImageFragment extends DialogFragment {
 
         mImageView.setImageDrawable(image);
 
-
         return mImageView;
     }
 

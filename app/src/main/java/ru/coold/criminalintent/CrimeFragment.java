@@ -18,6 +18,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -31,6 +32,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -68,7 +70,6 @@ public class CrimeFragment extends Fragment {
         if(requestCode==TimePickerFragment.REQUEST_TIME){
             Date date = (Date)data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
             mCrime.setDate(date);
-            Log.d("Crime", "Time");
             updateDate();
         }
 
@@ -77,6 +78,11 @@ public class CrimeFragment extends Fragment {
 
             if(filename!=null) {
                 Photo p = new Photo(filename);
+                if(mCrime.getPhoto()!=null){
+                    File f = new File(getActivity().getFileStreamPath(mCrime.getPhoto().getFilename()).getAbsolutePath());
+                    boolean delete = f.delete();
+                    Log.i(TAG, delete + "");
+                }
                 mCrime.setPhoto(p);
                 showPhoto();
             }
@@ -172,6 +178,8 @@ public class CrimeFragment extends Fragment {
             mPhotoButton.setEnabled(false);
         }
 
+        registerForContextMenu(mPhotoView);
+
         return v;
     }
 
@@ -190,6 +198,7 @@ public class CrimeFragment extends Fragment {
         }
 
         mPhotoView.setImageDrawable(b);
+
     }
 
     @Override
@@ -232,6 +241,30 @@ public class CrimeFragment extends Fragment {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        switch (v.getId()){
+            case R.id.crime_imageView:
+                if(mCrime.getPhoto()==null) return;
+                menu.add(0,1,0, "Delete");
+        }
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case 1:
+                if(mCrime!=null && mCrime.getPhoto()!=null) {
+                    File f = new File(getActivity().getFileStreamPath(mCrime.getPhoto().getFilename()).getAbsolutePath());
+                    boolean delete = f.delete();
+                    mCrime.setPhoto(null);
+                    mPhotoView.setImageResource(android.R.color.transparent);
+                }
+                break;
+        }
+        return super.onContextItemSelected(item);
     }
 
 
